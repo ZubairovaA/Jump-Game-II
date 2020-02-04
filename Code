@@ -1,0 +1,82 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int Curr_Max_Length, count = 1, Prev = 0;
+        bool flag = true;
+
+        if (nums[0] == 0 || nums.size() == 1)//
+        {
+            return 0;
+        }
+
+        Curr_Max_Length = nums[0];
+        if (Curr_Max_Length >= nums.size() - 1)
+        {
+            goto point;
+        }
+        else if (Curr_Max_Length + nums[Curr_Max_Length] >= nums.size() - 1)
+        {
+            count++;
+            goto point;
+        }
+
+
+        else {
+            for (int i = 0; i < nums.size(); i++)
+            { Prev = Curr_Max_Length;
+
+              for (int j = i + 1; j < Curr_Max_Length; j++)
+                { int finish = j + nums[j];
+                  if (finish > (Prev + nums[Prev])){
+                  Prev = j;
+                  flag = !flag;
+                        
+                   if (Prev < nums.size() - 1) {
+                     if (Prev + nums[Prev] >= nums.size() - 1){
+                         count += 1;
+                         goto point;
+                          }
+                        }
+                   else { return ++count; }
+             }
+             }
+             
+          if ((!flag) && (i != Curr_Max_Length)){
+          i = Prev;
+          Curr_Max_Length = i + nums[i];
+          count++;
+          flag = !flag;
+           if (Curr_Max_Length >= nums.size() - 1)
+               {
+               goto point;
+               }
+               }
+                
+          if ((i == Curr_Max_Length) && (i < nums.size() - 1)){
+               Curr_Max_Length = i + nums[i];
+               count++;
+                 if (Curr_Max_Length >= nums.size() - 1)
+                    {
+                    goto point;
+                    }
+           }
+           }
+           }
+             point:
+             return count;
+    }
+};
+
+int main()
+{
+    vector<int> nums = {5,9,3,2,1,0,2,3,3,1,0,0};
+    Solution A;
+    cout<<A.jump(nums);
+return 0;
+}
+
